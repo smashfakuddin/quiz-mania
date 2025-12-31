@@ -5,6 +5,7 @@ import Navbar from "@/components/common/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { Footer } from "@/components/common/footer";
 import Container from "@/components/common/container";
+import dbConnect from '../lib/mongodb';
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,11 +24,13 @@ export const metadata: Metadata = {
   description: "A NextJS Application for attempting Quiz",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const conn = await dbConnect();
+  console.log(conn);
   return (
     <html lang="en" className={inter.variable}>
       <body
