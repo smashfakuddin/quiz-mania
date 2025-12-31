@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon, TrashIcon } from "lucide-react";
+import { DeleteIcon, EditIcon, TrashIcon, Upload } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
@@ -31,9 +31,15 @@ export default function AllQuiz() {
               Exercitationem, beatae?
             </p>
 
-            <Button className="w-fit">
-              Continue Editing <EditIcon />
-            </Button>
+            <div className="space-x-2">
+              {" "}
+              <Button className="w-fit">
+                Continue Editing <EditIcon />
+              </Button>
+              <Button className="w-fit" variant={"secondary"}>
+                Publish <Upload />
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
@@ -62,9 +68,15 @@ export default function AllQuiz() {
               Exercitationem, beatae?
             </p>
 
-            <Button className="w-fit">
-              Continue Editing <EditIcon />
-            </Button>
+            <div className="space-x-2">
+              {" "}
+              <Button className="w-fit">
+                Continue Editing <EditIcon />
+              </Button>
+              <Button className="w-fit" variant={"secondary"}>
+                Publish <Upload />
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
@@ -93,9 +105,15 @@ export default function AllQuiz() {
               Exercitationem, beatae?
             </p>
 
-            <Button className="w-fit">
-              Continue Editing <EditIcon />
-            </Button>
+            <div className="space-x-2">
+              {" "}
+              <Button className="w-fit">
+                Continue Editing <EditIcon />
+              </Button>
+              <Button className="w-fit" variant={"secondary"}>
+                Unpublish <Upload />
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
@@ -124,9 +142,15 @@ export default function AllQuiz() {
               Exercitationem, beatae?
             </p>
 
-            <Button className="w-fit">
-              Continue Editing <EditIcon />
-            </Button>
+            <div className="space-x-2">
+              {" "}
+              <Button className="w-fit">
+                Continue Editing <EditIcon />
+              </Button>
+              <Button className="w-fit" variant={"secondary"}>
+                Publish <Upload />
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
