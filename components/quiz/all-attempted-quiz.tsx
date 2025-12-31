@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 
 export default function AllAttempTedQuiz() {
   return (
-    <div className=" grid grid-cols-3 gap-5">
+    <div className=" grid grid-cols-1 md:grid-cols-3 gap-5">
       <Card className=" hover:scale-[102%] transition-all duration-300">
         <div className="flex">
           <div>

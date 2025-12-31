@@ -20,7 +20,7 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6 font-semibold">
-            <Link href="/" className="hover:text-blue-500">
+            <Link href="/admin" className="hover:text-blue-500">
               Admin
             </Link>
             <Link href="/quiz" className="hover:text-blue-500">
