@@ -1,6 +1,29 @@
 import dbConnect from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Quiz from "@/models/quiz-model";
+import Question from "@/models/question-model";
+
+export async function GET() {
+  try {
+    await dbConnect();
+
+    // Fetch all quizzes
+    const quizzes = await Quiz.find()
+      .populate({
+        path: "questions",
+        select: "questionText note options marks",
+      })
+      .sort({ createdAt: -1 });
+
+    return NextResponse.json({ success: true, data: quizzes }, { status: 200 });
+  } catch (error) {
+    console.error("GET ALL QUIZZES ERROR:", error);
+    return NextResponse.json(
+      { success: false, message: error },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +46,10 @@ export async function POST(req: NextRequest) {
       isPublished: isPublished || false,
     });
 
-    return NextResponse.json({ success: true, data: quiz }, { status: 201 });
+    return NextResponse.json(
+      { success: true, data: quiz, message: "Quiz Created Successfully" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -60,7 +86,6 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-
 export async function PATCH(req: NextRequest) {
   try {
     await dbConnect();
@@ -89,7 +114,11 @@ export async function PATCH(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { success: true, data: updatedQuiz, message: "Quiz updated successfully" },
+      {
+        success: true,
+        data: updatedQuiz,
+        message: "Quiz updated successfully",
+      },
       { status: 200 }
     );
   } catch (error) {

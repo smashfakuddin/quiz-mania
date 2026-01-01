@@ -1,12 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 type WelcomeCardProps = {
-  name: string
-  role?: string
-  totalQuizzes?: number
-}
+  name: string;
+  role?: string;
+  totalQuizzes?: number;
+};
 
 export function Welcome({
   name,
@@ -18,7 +19,7 @@ export function Welcome({
     year: "numeric",
     month: "long",
     day: "numeric",
-  })
+  });
 
   return (
     <Card>
@@ -28,31 +29,29 @@ export function Welcome({
             <CardTitle className="text-2xl font-semibold">
               Welcome back, {name}
             </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              {today}
-            </p>
+            <p className="text-sm text-muted-foreground">{today}</p>
           </div>
-
-          <Button size="sm">
-            <Plus className="mr-1 h-4 w-4" />
-            Create Quiz
-          </Button>
+          <Link href={"/quiz/create"}>
+            <Button size="sm">
+              <Plus className="mr-1 h-4 w-4" />
+              Create Quiz
+            </Button>
+          </Link>
         </div>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">
           You are logged in as{" "}
-          <span className="font-medium text-foreground">{role}</span>.
-          Manage quizzes, questions, and monitor overall activity from here.
+          <span className="font-medium text-foreground">{role}</span>. Manage
+          quizzes, questions, and monitor overall activity from here.
         </p>
 
         {/* Optional quick stat */}
         <div className="text-sm">
-          <span className="font-medium">{totalQuizzes}</span>{" "}
-          quizzes created
+          <span className="font-medium">{totalQuizzes}</span> quizzes created
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
