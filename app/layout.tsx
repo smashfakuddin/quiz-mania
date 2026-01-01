@@ -5,7 +5,7 @@ import Navbar from "@/components/common/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { Footer } from "@/components/common/footer";
 import Container from "@/components/common/container";
-import dbConnect from '../lib/mongodb';
+import dbConnect from "../lib/mongodb";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -30,8 +30,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const conn = await dbConnect();
-  console.log(conn);
+  await dbConnect();
+
   return (
     <html lang="en" className={inter.variable}>
       <body
@@ -45,7 +45,7 @@ export default async function RootLayout({
         >
           <Navbar />
           <Container>
-            <Toaster/>
+            <Toaster />
             {children}
             <Footer />
           </Container>

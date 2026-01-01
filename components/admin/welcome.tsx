@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import CreateQuiz from "./create/create-quiz";
 
 type WelcomeCardProps = {
   name: string;
@@ -31,12 +32,7 @@ export function Welcome({
             </CardTitle>
             <p className="text-sm text-muted-foreground">{today}</p>
           </div>
-          <Link href={"/quiz/create"}>
-            <Button size="sm">
-              <Plus className="mr-1 h-4 w-4" />
-              Create Quiz
-            </Button>
-          </Link>
+          <CreateQuiz/>
         </div>
       </CardHeader>
 

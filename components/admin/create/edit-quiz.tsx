@@ -6,9 +6,20 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CreateQuizForm } from "./create-quiz-form";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { EditIcon, Plus } from "lucide-react";
 
-export default function CreateQuiz() {
+type EditProps = {
+  isEdit: boolean;
+  title: string;
+  description: string;
+  id: string;
+};
+export default function EditQuiz({
+  isEdit,
+  title,
+  description,
+  id,
+}: EditProps) {
   const [open, setOpen] = useState(false);
   const handleOpenChange = () => {
     setOpen((prev) => !prev);
@@ -16,9 +27,8 @@ export default function CreateQuiz() {
 
   return (
     <>
-      <Button size="sm" onClick={handleOpenChange}>
-        <Plus className="mr-1 h-4 w-4" />
-        Create Quiz
+      <Button size="sm" onClick={handleOpenChange} variant="secondary">
+        <EditIcon className="mr-1 h-4 w-4" />
       </Button>
       {open && (
         <CommonModal
@@ -29,7 +39,13 @@ export default function CreateQuiz() {
           title="Create Quiz"
           description="Creating Quiz will increase your reach in Community"
         >
-          <CreateQuizForm onSuccess={handleOpenChange} isEdit={false}/>
+          <CreateQuizForm
+            onSuccess={handleOpenChange}
+            isEdit={isEdit}
+            title={title}
+            description={description}
+            id={id}
+          />
         </CommonModal>
       )}
     </>

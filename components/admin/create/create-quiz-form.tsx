@@ -5,24 +5,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { createQuiz } from "@/actions/create-quiz";
+import { createQuiz, editQuiz } from "@/actions/create-quiz";
+import { useEffect } from "react";
 
 type FormValues = {
   title: string;
   description: string;
 };
 
-export function CreateQuizForm({ onSuccess }: { onSuccess: () => void }) {
+type CreateQuizProps = {
+  title?: string;
+  description?: string;
+  id?: string;
+  isEdit: boolean;
+  onSuccess: () => void;
+};
+export function CreateQuizForm({
+  onSuccess,
+  title,
+  description,
+  id,
+  isEdit,
+}: CreateQuizProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await createQuiz(data);
-      console.log("respnse", response);
+      const response = isEdit
+        ? await editQuiz(id, data)
+        : await createQuiz(data);
       toast.success(response?.message);
 
       onSuccess();
@@ -30,6 +46,15 @@ export function CreateQuizForm({ onSuccess }: { onSuccess: () => void }) {
       toast.error(error?.message);
     }
   };
+
+  useEffect(() => {
+    if (isEdit && title && description) {
+      reset({
+        title,
+        description,
+      });
+    }
+  }, [isEdit, title, description, reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -60,7 +85,7 @@ export function CreateQuizForm({ onSuccess }: { onSuccess: () => void }) {
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Saving..." : "Save"}
+        {isSubmitting ? "Saving..." : isEdit ? "Save Edit" : "Save"}
       </Button>
     </form>
   );

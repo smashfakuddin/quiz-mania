@@ -28,6 +28,29 @@ export async function createQuiz(data: FormValues) {
   revalidatePath("/admin");
   return response;
 }
+export async function editQuiz(id: string | undefined, data: FormValues) {
+  const newData = {
+    ...data,
+    id,
+    createdBy: "64a1b2c3d4e5f67890123456",
+  };
+
+  const res = await fetch("http://localhost:3000/api/quiz", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newData),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create quiz");
+  }
+
+  const response = await res.json();
+  revalidatePath("/admin");
+  return response;
+}
 
 export async function deleteQuiz(id: string) {
   const res = await fetch("http://localhost:3000/api/quiz", {

@@ -6,6 +6,7 @@ import { EmptyDemo } from "./empty-quiz";
 import { toast } from "sonner";
 import DeleteQuiz from "./delete-quiz";
 import { revalidatePath } from "next/cache";
+import EditQuiz from "./create/edit-quiz";
 
 export default async function AllQuiz() {
   const res = await fetch("http://localhost:3000/api/quiz", {
@@ -51,10 +52,18 @@ export default async function AllQuiz() {
             <div className="flex flex-col gap-3 min-w-0 flex-1">
               <div className="flex justify-between items-center">
                 <Badge variant={"destructive"}>Draft</Badge>
-                <DeleteQuiz
-                  id={quiz._id.toString()}
-                  handleDeleteQuiz={handleDeleteQuiz}
-                />
+                <div className="flex items-center gap-1">
+                  <EditQuiz
+                    isEdit={true}
+                    title={quiz.title}
+                    description={quiz.title}
+                    id={quiz._id.toString()}
+                  />
+                  <DeleteQuiz
+                    id={quiz._id.toString()}
+                    handleDeleteQuiz={handleDeleteQuiz}
+                  />
+                </div>
               </div>
 
               <div className="flex items-start justify-between gap-3 min-w-0">

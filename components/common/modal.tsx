@@ -14,6 +14,7 @@ type CommonModalProps = {
   title?: string;
   description?: string;
   children: React.ReactNode;
+  
 };
 
 export function CommonModal({
@@ -22,13 +23,18 @@ export function CommonModal({
   title,
   description,
   children,
+  
 }: CommonModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         {(title || description) && (
           <DialogHeader>
-            {title && <DialogTitle className="text-center text-xl font-semibold">{title}</DialogTitle>}
+            {title && (
+              <DialogTitle className="text-center text-xl font-semibold">
+                {title}
+              </DialogTitle>
+            )}
             {description && (
               <DialogDescription>{description}</DialogDescription>
             )}
