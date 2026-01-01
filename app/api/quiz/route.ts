@@ -2,12 +2,12 @@ import dbConnect from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Quiz from "@/models/quiz-model";
 import Question from "@/models/question-model";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function GET() {
   try {
     await dbConnect();
 
-    // Fetch all quizzes
     const quizzes = await Quiz.find()
       .populate({
         path: "questions",
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       createdBy,
       isPublished: isPublished || false,
     });
-
+    revalidatePath("/admin");
     return NextResponse.json(
       { success: true, data: quiz, message: "Quiz Created Successfully" },
       { status: 201 }
@@ -72,7 +72,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     const quiz = await Quiz.findByIdAndDelete(id);
-
+ 
     return NextResponse.json(
       { success: true, message: "Deleted Successfully" },
       { status: 201 }

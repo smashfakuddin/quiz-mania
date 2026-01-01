@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { createQuiz } from "@/actions/create-quiz";
 
 type FormValues = {
   title: string;
@@ -20,24 +21,8 @@ export function CreateQuizForm({ onSuccess }: { onSuccess: () => void }) {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const newData = {
-        ...data,
-        createdBy: "64a1b2c3d4e5f67890123456",
-      };
-
-      const res = await fetch("http://localhost:3000/api/quiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newData),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to create quiz");
-      }
-
-      const response = await res.json();
+      const response = await createQuiz(data);
+      console.log("respnse", response);
       toast.success(response?.message);
 
       onSuccess();
