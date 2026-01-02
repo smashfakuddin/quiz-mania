@@ -1,3 +1,4 @@
+import CreateQuestion from "@/components/admin/create/create-question";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function page({
@@ -25,7 +26,7 @@ export default async function page({
                 {quiz.title}
               </CardTitle>
             </div>
-            {/* <CreateQuiz /> */}
+            <CreateQuestion quizId={quiz._id} />
           </div>
         </CardHeader>
 

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { createQuiz, editQuiz } from "@/actions/create-quiz";
 import { useEffect } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 type FormValues = {
   title: string;
@@ -73,7 +74,7 @@ export function CreateQuizForm({
 
       <div className="space-y-1">
         <Label htmlFor="description">Write a description</Label>
-        <Input
+        <Textarea
           id="description"
           {...register("description", {
             required: "Description is required",

@@ -9,15 +9,14 @@ type Params = {
 };
 
 export async function GET(req: Request, { params }: Params) {
-try {
+  try {
     await dbConnect();
-console.log(params);
-const {quizId} = await params;
-    const quiz = await Quiz.findById(quizId)
-    // .populate({
-    //   path: "questions",
-    //   select: "questionText note options marks",
-    // });
+
+    const { quizId } = await params;
+    const quiz = await Quiz.findById(quizId).populate({
+      path: "questions",
+      select: "questionText note options marks",
+    });
 
     if (!quiz) {
       return NextResponse.json(
@@ -26,10 +25,7 @@ const {quizId} = await params;
       );
     }
 
-    return NextResponse.json(
-      { success: true, data: quiz },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, data: quiz }, { status: 200 });
   } catch (error) {
     console.error("GET SINGLE QUIZ ERROR:", error);
     return NextResponse.json(

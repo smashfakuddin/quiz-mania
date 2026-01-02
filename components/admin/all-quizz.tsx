@@ -57,7 +57,7 @@ export default async function AllQuiz() {
                   <EditQuiz
                     isEdit={true}
                     title={quiz.title}
-                    description={quiz.title}
+                    description={quiz.description}
                     id={quiz._id.toString()}
                   />
                   <DeleteQuiz
