@@ -4,6 +4,7 @@ import { ChartLine } from "./line-chart";
 import { ChartRadial } from "./radal-chart";
 
 export default function Summary() {
+  
   return (
     <div>
       <Card >

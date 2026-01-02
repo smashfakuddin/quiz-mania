@@ -1,45 +1,18 @@
-import { DeleteIcon, EditIcon, TrashIcon, Upload } from "lucide-react";
+import { EditIcon, Upload } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { EmptyDemo } from "./empty-quiz";
-import { toast } from "sonner";
 import DeleteQuiz from "./delete-quiz";
-import { revalidatePath } from "next/cache";
 import EditQuiz from "./create/edit-quiz";
 import Link from "next/link";
-import { deleteQuiz } from "@/actions/create-quiz";
 
 export default async function AllQuiz() {
-  const res = await fetch("http://localhost:3000/api/quiz", {
-    next: { tags: ["quizzes"] },
-  });
+  const res = await fetch("http://localhost:3000/api/quiz");
   const quizzes = await res.json();
-
-  const handleDeleteQuiz = async (id: string) => {
-    try {
-      const res = await deleteQuiz(id);
-      // const res = await fetch("http://localhost:3000/api/quiz", {
-      //   method: "DELETE",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ id }),
-      // });
-      // if (!res.ok) {
-      //   throw new Error("Unable To Delete");
-      // }
-
-      // const response = await res.json();
-      // revalidatePath("/admin");
-    } catch (error: any) {
-      // toast.error(error?.message);
-      console.log(error);
-    }
-  };
-  return quizzes.data.length > 0 ? (
+  return quizzes.data.quizzes.length > 0 ? (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {quizzes.data.map((quiz: any) => (
+      {quizzes.data.quizzes?.map((quiz: any) => (
         <Card
           className="hover:scale-[1.02] transition-all duration-300"
           key={quiz._id}
@@ -60,10 +33,7 @@ export default async function AllQuiz() {
                     description={quiz.description}
                     id={quiz._id.toString()}
                   />
-                  <DeleteQuiz
-                    id={quiz._id.toString()}
-                    // handleDeleteQuiz={handleDeleteQuiz}
-                  />
+                  <DeleteQuiz id={quiz._id.toString()} />
                 </div>
               </div>
 

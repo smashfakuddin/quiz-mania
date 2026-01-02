@@ -1,12 +1,16 @@
 import SummaryCard from "./summary-card";
 
-export default function AdminStats() {
+export default async function AdminStats() {
+  const res = await fetch("http://localhost:3000/api/quiz");
+  const quizzes = await res.json();
+  const { data: { dashboard } = {} } = quizzes || {};
+  const { published, unpublished, totalQuestion, totalQuiz } = dashboard;
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-      <SummaryCard title="Total Created Quiz" link="/quiz" amount={10} />
-      <SummaryCard title="Total Question" link="/quiz" amount={100} />
-      <SummaryCard title="Draft Quiz" link="/quiz" amount={5} />
-      <SummaryCard title="Published Quiz" link="/quiz" amount={5} />
+      <SummaryCard title="Total Created Quiz" link="/quiz" amount={totalQuiz} />
+      <SummaryCard title="Total Question" link="/quiz" amount={totalQuestion} />
+      <SummaryCard title="Draft Quiz" link="/quiz" amount={unpublished} />
+      <SummaryCard title="Published Quiz" link="/quiz" amount={published} />
     </div>
   );
 }

@@ -14,8 +14,25 @@ export async function GET() {
         select: "questionText note options marks",
       })
       .sort({ createdAt: -1 });
-
-    return NextResponse.json({ success: true, data: quizzes }, { status: 200 });
+    const dashboardData = {
+      totalQuiz: quizzes.length,
+      totalQuestion: quizzes.reduce(
+        (total, quiz) => total + quiz.questions.length,
+        0
+      ),
+      published: quizzes.filter((q) => q.isPublished).length,
+      unpublished: quizzes.filter((q) => !q.isPublished).length,
+    };
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          quizzes,
+          dashboard: dashboardData,
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("GET ALL QUIZZES ERROR:", error);
     return NextResponse.json(
@@ -72,7 +89,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     const quiz = await Quiz.findByIdAndDelete(id);
- 
+
     return NextResponse.json(
       { success: true, message: "Deleted Successfully" },
       { status: 201 }
