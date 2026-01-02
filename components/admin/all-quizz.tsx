@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import DeleteQuiz from "./delete-quiz";
 import { revalidatePath } from "next/cache";
 import EditQuiz from "./create/edit-quiz";
+import Link from "next/link";
 
 export default async function AllQuiz() {
   const res = await fetch("http://localhost:3000/api/quiz", {
@@ -73,14 +74,15 @@ export default async function AllQuiz() {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem, beatae?
+                {quiz.description}
               </p>
 
               <div className="space-x-2">
-                <Button className="w-fit">
-                  Continue Editing <EditIcon />
-                </Button>
+                <Link href={`/quiz/create-edit/${quiz._id.toString()}`} >
+                  <Button className="w-fit cursor-pointer" >
+                    Continue Editing <EditIcon />
+                  </Button>
+                </Link>
                 <Button className="w-fit" variant={"secondary"}>
                   Publish <Upload />
                 </Button>
