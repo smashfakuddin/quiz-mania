@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Question from "@/models/question-model";
 import dbConnect from "@/lib/mongodb";
 import Quiz from "@/models/quiz-model";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: NextRequest) {
   try {
@@ -41,7 +42,11 @@ export async function POST(req: NextRequest) {
     await quiz.save();
 
     return NextResponse.json(
-      { success: true, data: question },
+      {
+        success: true,
+        data: question,
+        message: "Question Created Successfully",
+      },
       { status: 201 }
     );
   } catch (error) {
@@ -104,7 +109,7 @@ export async function DELETE(req: NextRequest) {
     await dbConnect();
 
     const body = await req.json();
-    const { questionId,quizId } = body;
+    const { questionId, quizId } = body;
 
     if (!questionId || !quizId) {
       return NextResponse.json(

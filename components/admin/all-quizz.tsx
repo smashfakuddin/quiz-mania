@@ -8,6 +8,7 @@ import DeleteQuiz from "./delete-quiz";
 import { revalidatePath } from "next/cache";
 import EditQuiz from "./create/edit-quiz";
 import Link from "next/link";
+import { deleteQuiz } from "@/actions/create-quiz";
 
 export default async function AllQuiz() {
   const res = await fetch("http://localhost:3000/api/quiz", {
@@ -16,22 +17,21 @@ export default async function AllQuiz() {
   const quizzes = await res.json();
 
   const handleDeleteQuiz = async (id: string) => {
-    "use server";
     try {
-      const res = await fetch("http://localhost:3000/api/quiz", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-      if (!res.ok) {
-        throw new Error("Unable To Delete");
-      }
+      const res = await deleteQuiz(id);
+      // const res = await fetch("http://localhost:3000/api/quiz", {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ id }),
+      // });
+      // if (!res.ok) {
+      //   throw new Error("Unable To Delete");
+      // }
 
-      const response = await res.json();
-      revalidatePath("/admin");
-      toast.warning(response.message);
+      // const response = await res.json();
+      // revalidatePath("/admin");
     } catch (error: any) {
       // toast.error(error?.message);
       console.log(error);
@@ -62,7 +62,7 @@ export default async function AllQuiz() {
                   />
                   <DeleteQuiz
                     id={quiz._id.toString()}
-                    handleDeleteQuiz={handleDeleteQuiz}
+                    // handleDeleteQuiz={handleDeleteQuiz}
                   />
                 </div>
               </div>
@@ -78,8 +78,8 @@ export default async function AllQuiz() {
               </p>
 
               <div className="space-x-2">
-                <Link href={`/quiz/create-edit/${quiz._id.toString()}`} >
-                  <Button className="w-fit cursor-pointer" >
+                <Link href={`/quiz/create-edit/${quiz._id.toString()}`}>
+                  <Button className="w-fit cursor-pointer">
                     Continue Editing <EditIcon />
                   </Button>
                 </Link>

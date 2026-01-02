@@ -15,7 +15,7 @@ export async function GET(req: Request, { params }: Params) {
     const { quizId } = await params;
     const quiz = await Quiz.findById(quizId).populate({
       path: "questions",
-      select: "questionText note options marks",
+      select: "questionText note options marks correctAnswer",
     });
 
     if (!quiz) {

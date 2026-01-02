@@ -37,10 +37,14 @@ export function CreateQuizForm({
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = isEdit
-        ? await editQuiz(id, data)
-        : await createQuiz(data);
-      toast.success(response?.message);
+      const response = await toast.promise(
+        isEdit ? editQuiz(id, data) : createQuiz(data), // your async call
+        {
+          loading: isEdit ? "Updating quiz..." : "Creating quiz...",
+          success: (res: any) => res?.message || "Success!",
+          error: (err: any) => err?.message || "Something went wrong",
+        }
+      );
 
       onSuccess();
     } catch (error: any) {

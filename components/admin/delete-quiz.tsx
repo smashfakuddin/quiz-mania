@@ -1,13 +1,25 @@
-
-"use client"
+"use client";
 import { TrashIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { deleteQuiz } from "@/actions/create-quiz";
+import { toast } from "sonner";
 
 type DeleteQuizProps = {
   id: string;
-  handleDeleteQuiz: (id: string) => {};
 };
-export default function DeleteQuiz({ id, handleDeleteQuiz }: DeleteQuizProps) {
+export default function DeleteQuiz({ id }: DeleteQuizProps) {
+  const handleDeleteQuiz = async (id: string) => {
+    try {
+      const res = await toast.promise(deleteQuiz(id), {
+        loading: "Deleting quiz...",
+        success: (data: any) => data?.message || "Quiz deleted successfully!",
+        error: (err: any) => err?.message || "Failed to delete quiz",
+      });
+    } catch (error: any) {
+      // toast.error(error?.message);
+      console.log(error);
+    }
+  };
   return (
     <Button
       variant="secondary"

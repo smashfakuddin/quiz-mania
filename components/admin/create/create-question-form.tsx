@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { addQuestion } from "@/actions/question";
 
 type QuestionFormValues = {
   questionText: string;
@@ -47,42 +48,15 @@ export function CreateQuestionForm({ quizId, onSuccess }: Props) {
 
   const onSubmit = async (data: QuestionFormValues) => {
     try {
-      const options = data.options.map((o) => o.value.trim());
+      await toast.promise(
+        addQuestion(data, quizId), // your async function
+        {
+          loading: "Adding question...",
+          success: (res: any) => `${res.message}`, // what to show on success
+          error: (err: any) => err.message || "Something went wrong", // on error
+        }
+      );
 
-      if (options.some((opt) => !opt)) {
-        toast.error("All 4 options are required");
-        return;
-      }
-
-      if (!options.includes(data.correctAnswer)) {
-        toast.error("Correct answer must match one of the options");
-        return;
-      }
-
-      const payload = {
-        quizId,
-        questionText: data.questionText.trim(),
-        note: data.note?.trim(),
-        options,
-        correctAnswer: data.correctAnswer,
-        marks: Number(data.marks),
-      };
-
-      const res = await fetch("/api/question", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        throw new Error(result?.message || "Failed to create question");
-      }
-
-      toast.success("Question added successfully");
       reset();
       onSuccess();
     } catch (error: any) {
@@ -99,9 +73,7 @@ export function CreateQuestionForm({ quizId, onSuccess }: Props) {
           {...register("questionText", { required: "Question is required" })}
         />
         {errors.questionText && (
-          <p className="text-sm text-red-500">
-            {errors.questionText.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.questionText.message}</p>
         )}
       </div>
 
@@ -142,9 +114,7 @@ export function CreateQuestionForm({ quizId, onSuccess }: Props) {
           ))}
         </select>
         {errors.correctAnswer && (
-          <p className="text-sm text-red-500">
-            {errors.correctAnswer.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.correctAnswer.message}</p>
         )}
       </div>
 

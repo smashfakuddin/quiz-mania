@@ -1,3 +1,4 @@
+import AllQuestions from "@/components/admin/all-question";
 import CreateQuestion from "@/components/admin/create/create-question";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -17,7 +18,7 @@ export default async function page({
   const { data: quiz } = data;
 
   return (
-    <div>
+    <div className=" space-y-5">
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-4">
@@ -40,6 +41,8 @@ export default async function page({
           </div>
         </CardContent>
       </Card>
+
+      <AllQuestions quizId={quizId} />
     </div>
   );
 }
