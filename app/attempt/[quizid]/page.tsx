@@ -1,9 +1,18 @@
 import QuizAttempt from "@/components/attempt/quiz-attempt";
 
-export default function page() {
+export default async function page({
+  params,
+}: {
+  params: Promise<{ quizid: string }>;
+}) {
+  const { quizid } = await params;
+  console.log(quizid);
+  const res = await fetch(`http://localhost:3000/api/quiz/${quizid}`);
+  const quiz = await res.json();
+console.log(quiz)
   return (
     <div>
-      <QuizAttempt />
+      <QuizAttempt questions={quiz.data.questions} quizId={quiz.data._id}/>
     </div>
   );
 }

@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -14,21 +19,21 @@ import {
 } from "recharts";
 
 type Question = {
-  id: number;
-  question: string;
+  _id: string;
+  questionText: string;
   options: string[];
-  correctIndex: number;
+  correctAnswer: string;
+  marks: number;
 };
 
-const questions: Question[] = [
-  { id: 1, question: "Which hook is used to manage state in React?", options: ["useEffect", "useContext", "useState", "useMemo"], correctIndex: 2 },
-  { id: 2, question: "What does Next.js use for routing?", options: ["Redux", "File-based routing", "React Router", "Express"], correctIndex: 1 },
-  { id: 3, question: "Which CSS framework is utility-first?", options: ["Bootstrap", "Material UI", "Tailwind CSS", "Ant Design"], correctIndex: 2 },
-  { id: 4, question: "Which method is used to fetch data on the client?", options: ["getStaticProps", "getServerSideProps", "fetch()", "useLoader"], correctIndex: 2 },
-  { id: 5, question: "Which hook runs side effects in React?", options: ["useMemo", "useEffect", "useState", "useRef"], correctIndex: 1 },
-];
-
-export default function QuizAttempt() {
+export default function QuizAttempt({
+  questions,
+  quizId,
+}: {
+  questions: Question[];
+  quizId: string;
+}) {
+  console.log("que", questions);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [timer, setTimer] = useState(300);
@@ -40,7 +45,10 @@ export default function QuizAttempt() {
 
   const handleSelect = (optionIndex: number) => {
     if (!timerActive) setTimerActive(true);
-    setAnswers({ ...answers, [currentQuestion.id]: optionIndex });
+    setAnswers((prev) => ({
+      ...prev,
+      [currentIndex]: optionIndex,
+    }));
   };
 
   useEffect(() => {
@@ -49,27 +57,64 @@ export default function QuizAttempt() {
       setShowSummary(true);
       return;
     }
-    const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(interval);
   }, [timerActive, timer, showSummary]);
 
   const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
     const s = (seconds % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   };
 
-  const correctCount = Object.entries(answers).reduce((acc, [qId, ansIndex]) => {
-    const question = questions.find((q) => q.id === Number(qId));
-    return question && question.correctIndex === ansIndex ? acc + 1 : acc;
-  }, 0);
+  const correctCount = Object.entries(answers).reduce(
+    (acc, [qIndex, ansIndex]) => {
+      const question = questions[Number(qIndex)];
+      return question.options[ansIndex] === question.correctAnswer
+        ? acc + 1
+        : acc;
+    },
+    0
+  );
+
+  const submitQuiz = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/attempt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: "64b8f2a9c1a4e8b9d1f0a123",
+        quizId,
+        answers: Object.entries(answers).map(([q, a]) => ({
+          questionIndex: Number(q),
+          selectedOption: a,
+        })),
+        correctAnswers: correctCount,
+        totalQuestions: questions.length,
+        timeTaken: 300 - timer,
+      }),
+    });
+
+    const response = await res.json();
+    console.log("response", response);
+
+    setShowSummary(true);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+  /* ================= SUMMARY ================= */
 
   if (showSummary) {
     const data = [
       { name: "Correct", value: correctCount },
       { name: "Incorrect", value: questions.length - correctCount },
     ];
-    const COLORS = ["#4ade80", "#f87171"]; // green, red
+    const COLORS = ["#4ade80", "#f87171"];
 
     return (
       <div className="max-w-2xl mx-auto mt-10">
@@ -91,30 +136,34 @@ export default function QuizAttempt() {
                     paddingAngle={5}
                     label
                   >
-                    {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    {data.map((_, index) => (
+                      <Cell key={index} fill={COLORS[index]} />
                     ))}
                   </Pie>
                   <Tooltip />
-                  <Legend verticalAlign="bottom" />
+                  <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </div>
 
             <div className="text-center space-y-2">
-              <p className="text-lg">Total Questions: {questions.length}</p>
-              <p className="text-lg">Correct Answers: {correctCount}</p>
-              <p className="text-lg">Time Taken: {formatTime(300 - timer)}</p>
+              <p>Total Questions: {questions.length}</p>
+              <p>Correct Answers: {correctCount}</p>
+              <p>Time Taken: {formatTime(300 - timer)}</p>
             </div>
           </CardContent>
 
           <CardFooter className="justify-center">
-            <Button onClick={() => window.location.reload()}>Retake Quiz</Button>
+            <Button onClick={() => window.location.reload()}>
+              Retake Quiz
+            </Button>
           </CardFooter>
         </Card>
       </div>
     );
   }
+
+  /* ================= QUIZ ================= */
 
   return (
     <div className="max-w-2xl mx-auto mt-10">
@@ -130,17 +179,22 @@ export default function QuizAttempt() {
         </CardHeader>
 
         <CardContent className="space-y-5">
-          <h2 className="text-lg md:text-xl font-semibold">{currentQuestion.question}</h2>
+          <h2 className="text-lg md:text-xl font-semibold">
+            {currentQuestion.questionText}
+          </h2>
 
           <div className="space-y-3">
             {currentQuestion.options.map((option, idx) => {
-              const isSelected = answers[currentQuestion.id] === idx;
+              const isSelected = answers[currentIndex] === idx;
               return (
                 <button
                   key={idx}
                   onClick={() => handleSelect(idx)}
-                  className={`w-full text-left p-4 rounded-md border transition
-                    ${isSelected ? "border-primary bg-primary/10" : "hover:border-primary"}`}
+                  className={`w-full p-4 rounded-md border text-left transition ${
+                    isSelected
+                      ? "border-primary bg-primary/10"
+                      : "hover:border-primary"
+                  }`}
                 >
                   {option}
                 </button>
@@ -153,22 +207,22 @@ export default function QuizAttempt() {
           <Button
             variant="outline"
             disabled={currentIndex === 0}
-            onClick={() => setCurrentIndex((prev) => prev - 1)}
+            onClick={() => setCurrentIndex((i) => i - 1)}
           >
             Previous
           </Button>
 
           {currentIndex === questions.length - 1 ? (
             <Button
-              disabled={answers[currentQuestion.id] === undefined}
-              onClick={() => setShowSummary(true)}
+              disabled={answers[currentIndex] === undefined}
+              onClick={submitQuiz}
             >
               Submit
             </Button>
           ) : (
             <Button
-              disabled={answers[currentQuestion.id] === undefined}
-              onClick={() => setCurrentIndex((prev) => prev + 1)}
+              disabled={answers[currentIndex] === undefined}
+              onClick={() => setCurrentIndex((i) => i + 1)}
             >
               Next
             </Button>

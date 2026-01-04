@@ -56,7 +56,7 @@ export default async function Trending() {
 
                       {/* Action */}
                       <div className="pt-2">
-                        <Link href={`/quiz/create-edit/${quiz._id.toString()}`}>
+                        <Link href={`/attempt/${quiz._id.toString()}`}>
                           <Button
                             size="sm"
                             className="group-hover:translate-x-0.5 transition-transform"

@@ -11,8 +11,8 @@ type Params = {
 export async function GET(req: Request, { params }: Params) {
   try {
     await dbConnect();
-
     const { quizId } = await params;
+    console.log('quiz id server',quizId)
     const quiz = await Quiz.findById(quizId).populate({
       path: "questions",
       select: "questionText note options marks correctAnswer",
