@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 
-const roles = ["user", "teacher"];
+const roles = ["user", "teacher","admin"];
 
 const userSchema = new Schema(
   {
