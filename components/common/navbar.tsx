@@ -4,8 +4,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "./dark-toggle";
+import { User } from "next-auth";
+import { Button } from "../ui/button";
+import { signOut } from "next-auth/react";
 
-export default function Navbar() {
+type AuthSession = {
+  name: string;
+  email: string;
+  id: string;
+  role: string;
+};
+export default function Navbar({ user }: { user: User | undefined }) {
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -26,9 +35,13 @@ export default function Navbar() {
             <Link href="/quiz" className="hover:text-blue-500">
               My Quiz
             </Link>
-            <Link href="/contact" className="hover:text-blue-500">
-              Log in
-            </Link>
+            {user ? (
+              <Button onClick={() => signOut()}>Sign Out</Button>
+            ) : (
+              <Link href="/login" className="hover:text-blue-500">
+                Log in
+              </Link>
+            )}
 
             {/* Dark Mode Button */}
             <ModeToggle />

@@ -7,6 +7,8 @@ import { Footer } from "@/components/common/footer";
 import Container from "@/components/common/container";
 import dbConnect from "../lib/mongodb";
 import { Toaster } from "sonner";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -31,6 +33,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   await dbConnect();
+  const session = await auth();
 
   return (
     <html lang="en" className={inter.variable}>
@@ -43,11 +46,13 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          <Navbar user={session?.user} />
           <Container>
-            <Toaster />
-            {children}
-            <Footer />
+            <SessionProvider>
+              <Toaster />
+              {children}
+              <Footer />
+            </SessionProvider>
           </Container>
         </ThemeProvider>
       </body>

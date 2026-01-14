@@ -17,7 +17,7 @@ type FormValues = {
 type CreateQuizProps = {
   title?: string;
   description?: string;
-  id?: string;
+  id: string | undefined;
   isEdit: boolean;
   onSuccess: () => void;
 };
@@ -38,7 +38,7 @@ export function CreateQuizForm({
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await toast.promise(
-        isEdit ? editQuiz(id, data) : createQuiz(data), // your async call
+        isEdit ? editQuiz(id, data) : createQuiz(data,id), // your async call
         {
           loading: isEdit ? "Updating quiz..." : "Creating quiz...",
           success: (res: any) => res?.message || "Success!",

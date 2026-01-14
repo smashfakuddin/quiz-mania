@@ -4,16 +4,25 @@ import Quiz from "@/models/quiz-model";
 import Question from "@/models/question-model";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await dbConnect();
-
-    const quizzes = await Quiz.find()
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+    console.log("userid server", userId);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID required" },
+        { status: 400 }
+      );
+    }
+    const quizzes = await Quiz.find({ createdBy: userId })
       .populate({
         path: "questions",
         select: "questionText note options marks",
       })
       .sort({ createdAt: -1 });
+    console.log(quizzes);
     const dashboardData = {
       totalQuiz: quizzes.length,
       totalQuestion: quizzes.reduce(

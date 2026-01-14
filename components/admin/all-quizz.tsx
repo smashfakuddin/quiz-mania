@@ -6,9 +6,12 @@ import { EmptyDemo } from "./empty-quiz";
 import DeleteQuiz from "./delete-quiz";
 import EditQuiz from "./create/edit-quiz";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 export default async function AllQuiz() {
-  const res = await fetch("http://localhost:3000/api/quiz");
+  const session = await auth();
+  const userId = session?.user?.id;
+  const res = await fetch(`http://localhost:3000/api/quiz?userId=${userId}`);
   const quizzes = await res.json();
   return quizzes.data.quizzes.length > 0 ? (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

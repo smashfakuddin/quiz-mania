@@ -12,7 +12,7 @@ type WelcomeCardProps = {
 
 export function Welcome({
   name,
-  role = "Administrator",
+  role = "Admin",
   totalQuizzes = 0,
 }: WelcomeCardProps) {
   const today = new Date().toLocaleDateString("en-US", {

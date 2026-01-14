@@ -1,10 +1,13 @@
+import { auth } from "@/auth";
 import SummaryCard from "./summary-card";
 
 export default async function AdminStats() {
-  const res = await fetch("http://localhost:3000/api/quiz");
+  const session = await auth();
+  const userId = session?.user?.id;
+  const res = await fetch(`http://localhost:3000/api/quiz?userId=${userId}`);
   const quizzes = await res.json();
   const { data: { dashboard } = {} } = quizzes || {};
-  const { published, unpublished, totalQuestion, totalQuiz } = dashboard;
+  const { published, unpublished, totalQuestion, totalQuiz } = dashboard||{};
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
       <SummaryCard title="Total Created Quiz" link="/quiz" amount={totalQuiz} />

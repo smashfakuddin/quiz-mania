@@ -6,10 +6,10 @@ type FormValues = {
   description: string;
 };
 
-export async function createQuiz(data: FormValues) {
+export async function createQuiz(data: FormValues, id: string | undefined) {
   const newData = {
     ...data,
-    createdBy: "64a1b2c3d4e5f67890123456",
+    createdBy: id,
   };
 
   const res = await fetch("http://localhost:3000/api/quiz", {
