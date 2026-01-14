@@ -32,7 +32,6 @@ export async function editQuiz(id: string | undefined, data: FormValues) {
   const newData = {
     ...data,
     id,
-    createdBy: "64a1b2c3d4e5f67890123456",
   };
 
   const res = await fetch("http://localhost:3000/api/quiz", {
@@ -67,4 +66,28 @@ export async function deleteQuiz(id: string) {
   const response = await res.json();
   revalidatePath("/admin");
   return { message: "Quiz deleted successfully" };
+}
+
+export async function togglePublishQuiz(
+  quizId: string,
+  isPublished: boolean
+) {
+  const res = await fetch("http://localhost:3000/api/quiz", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: quizId,
+      isPublished,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update publish status");
+  }
+
+  const data = await res.json();
+  revalidatePath("/admin");
+  return data;
 }

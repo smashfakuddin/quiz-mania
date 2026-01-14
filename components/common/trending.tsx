@@ -39,6 +39,7 @@ export default async function Trending() {
                     <div className="flex flex-col gap-3 flex-1 min-w-0">
                       {/* Status */}
                       <div className="flex justify-between items-center">
+                        
                         <Badge variant="destructive" className="text-xs">
                           Draft
                         </Badge>

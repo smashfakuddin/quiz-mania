@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 
 export default async function page() {
   const session = await auth();
-  if(!session?.user){
-    redirect("/")
+  if (!session?.user) {
+    redirect("/");
   }
   return (
     <div className="my-5 space-y-5">

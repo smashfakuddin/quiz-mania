@@ -5,7 +5,7 @@ import Link from "next/link";
 import CreateQuiz from "./create/create-quiz";
 
 type WelcomeCardProps = {
-  name: string;
+  name: string | null | undefined;
   role?: string;
   totalQuizzes?: number;
 };
@@ -32,7 +32,7 @@ export function Welcome({
             </CardTitle>
             <p className="text-sm text-muted-foreground">{today}</p>
           </div>
-          <CreateQuiz/>
+          <CreateQuiz />
         </div>
       </CardHeader>
 

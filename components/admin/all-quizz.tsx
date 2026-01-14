@@ -7,6 +7,7 @@ import DeleteQuiz from "./delete-quiz";
 import EditQuiz from "./create/edit-quiz";
 import Link from "next/link";
 import { auth } from "@/auth";
+import PublishQuiz from "./publish-quiz";
 
 export default async function AllQuiz() {
   const session = await auth();
@@ -28,7 +29,12 @@ export default async function AllQuiz() {
             />
             <div className="flex flex-col gap-3 min-w-0 flex-1">
               <div className="flex justify-between items-center">
-                <Badge variant={"destructive"}>Draft</Badge>
+                {quiz?.isPublished ? (
+                  <Badge>Published</Badge>
+                ) : (
+                  <Badge variant={"destructive"}>Draft</Badge>
+                )}
+
                 <div className="flex items-center gap-1">
                   <EditQuiz
                     isEdit={true}
@@ -56,9 +62,10 @@ export default async function AllQuiz() {
                     Continue Editing <EditIcon />
                   </Button>
                 </Link>
-                <Button className="w-fit" variant={"secondary"}>
-                  Publish <Upload />
-                </Button>
+                <PublishQuiz
+                  id={quiz?._id.toString()}
+                  isPublished={quiz?.isPublished}
+                />
               </div>
             </div>
           </div>
