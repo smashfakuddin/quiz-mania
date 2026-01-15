@@ -10,9 +10,7 @@ import { Plus } from "lucide-react";
 import { auth } from "@/auth";
 import { useSession } from "next-auth/react";
 
-export default  function CreateQuiz() {
- const { data: session } = useSession()
- console.log('sesssion from create',session)
+export default function CreateQuiz({ id }: { id: string | undefined }) {
   const [open, setOpen] = useState(false);
   const handleOpenChange = () => {
     setOpen((prev) => !prev);
@@ -33,7 +31,7 @@ export default  function CreateQuiz() {
           title="Create Quiz"
           description="Creating Quiz will increase your reach in Community"
         >
-          <CreateQuizForm onSuccess={handleOpenChange} isEdit={false} id={session?.user?.id}/>
+          <CreateQuizForm onSuccess={handleOpenChange} isEdit={false} id={id} />
         </CommonModal>
       )}
     </>

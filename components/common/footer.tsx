@@ -26,14 +26,14 @@ interface FooterProps {
 
 const Footer = ({
   className,
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
+  copyright = "© Quiz Mania All rights reserved.",
   bottomLinks = [
     { text: "Terms and Conditions", url: "#" },
     { text: "Privacy Policy", url: "#" },
   ],
 }: FooterProps) => {
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("py-10", className)}>
       <div className="container">
         <footer>          
           <div className="mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">

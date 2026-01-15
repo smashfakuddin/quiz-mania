@@ -1,8 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import CreateQuiz from "./create/create-quiz";
+import { auth } from "@/auth";
 
 type WelcomeCardProps = {
   name: string | null | undefined;
@@ -10,11 +8,12 @@ type WelcomeCardProps = {
   totalQuizzes?: number;
 };
 
-export function Welcome({
+export async function Welcome({
   name,
   role = "Admin",
   totalQuizzes = 0,
 }: WelcomeCardProps) {
+const session = await auth();
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -32,7 +31,7 @@ export function Welcome({
             </CardTitle>
             <p className="text-sm text-muted-foreground">{today}</p>
           </div>
-          <CreateQuiz />
+          <CreateQuiz id={session?.user?.id}/>
         </div>
       </CardHeader>
 
