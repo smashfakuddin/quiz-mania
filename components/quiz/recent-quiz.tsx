@@ -1,46 +1,35 @@
+import { auth } from "@/auth";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Progress } from "../ui/progress";
+import { getLastAttemptedQuiz } from "@/lib/mongo-query";
 
-export default function RecentQuiz() {
+export default async function RecentQuiz() {
+  const session = await auth();
+    if(!session?.user){
+      return <>not auth</>
+    }
+    const data = await getLastAttemptedQuiz(session?.user?.id);
   return (
     <div className="col-span-4 md:col-span-3 gap-3 flex flex-col">
-      <Card className=" hover:scale-[102%] transition-all duration-300">
-        <div className="flex">
+      <Card className=" hover:scale-[102%] transition-all duration-300 h-full">
+        <div className="flex w-full">
           <div>
             <img src="/image/404-computer.svg" alt="" className="w-52" />
           </div>
-          <div className=" space-y-3">
+          <div className=" space-y-3 w-full">
             <h3 className="text-2xl font-semibold">
-              Lorem, ipsum dolor sit amet consectetur
+              {data?.title}
             </h3>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, beatae?
+              {data.description}
             </p>
             <Progress className="h-2.5" value={80} />
             <Button>Continue</Button>
           </div>
         </div>
       </Card>
-      <Card className=" hover:scale-[102%] transition-all duration-300">
-        <div className="flex">
-          <div>
-            <img src="/image/404-computer.svg" alt="" className="w-52" />
-          </div>
-          <div className=" space-y-3">
-            <h3 className="text-2xl font-semibold">
-              Lorem, ipsum dolor sit amet consectetur
-            </h3>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, beatae?
-            </p>
-            <Progress className="h-2.5" value={80} />
-            <Button>Continue</Button>
-          </div>
-        </div>
-      </Card>
+     
       
     </div>
   );

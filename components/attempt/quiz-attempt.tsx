@@ -29,9 +29,11 @@ type Question = {
 export default function QuizAttempt({
   questions,
   quizId,
+  userId,
 }: {
   questions: Question[];
   quizId: string;
+  userId: string | undefined;
 }) {
   console.log("que", questions);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -80,32 +82,31 @@ export default function QuizAttempt({
   );
 
   const submitQuiz = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/attempt", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: "64b8f2a9c1a4e8b9d1f0a123",
-        quizId,
-        answers: Object.entries(answers).map(([q, a]) => ({
-          questionIndex: Number(q),
-          selectedOption: a,
-        })),
-        correctAnswers: correctCount,
-        totalQuestions: questions.length,
-        timeTaken: 300 - timer,
-      }),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/api/attempt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          quizId,
+          answers: Object.entries(answers).map(([q, a]) => ({
+            questionIndex: Number(q),
+            selectedOption: a,
+          })),
+          correctAnswers: correctCount,
+          totalQuestions: questions.length,
+          timeTaken: 300 - timer,
+        }),
+      });
 
-    const response = await res.json();
-    console.log("response", response);
+      const response = await res.json();
+      console.log("response", response);
 
-    setShowSummary(true);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
+      setShowSummary(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   /* ================= SUMMARY ================= */
 
