@@ -6,7 +6,7 @@ The system supports **role-based authentication**, **analytics**, and **scalable
 ---
 
 ## 🚀 Live Demo
-👉 [Live URL here]
+👉 [https://quiz-mania-swart.vercel.app/]
 
 ---
 
