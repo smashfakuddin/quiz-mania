@@ -8,7 +8,7 @@ type Params = {
   };
 };
 
-export async function GET(req: Request, { params }: Params) {
+export async function GET(req: Request, { params }: { params: Promise<{ quizId: string }> }) {
   try {
     await dbConnect();
     const { quizId } = await params;

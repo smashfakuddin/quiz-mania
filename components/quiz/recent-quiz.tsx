@@ -22,7 +22,7 @@ export default async function RecentQuiz() {
               {data?.title}
             </h3>
             <p>
-              {data.description}
+              {data?.description}
             </p>
             <Progress className="h-2.5" value={80} />
             <Button>Continue</Button>

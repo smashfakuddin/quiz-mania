@@ -88,6 +88,6 @@ Pagination is implemented to:
 ## 🛠️ Installation & Setup
 
 ```bash
-git clone https://github.com/your-username/quiz-app.git
+git clone https://github.com/smashfakuddin/quiz-mania.git
 cd quiz-app
 npm install

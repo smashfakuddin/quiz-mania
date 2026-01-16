@@ -23,24 +23,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
 
+          const { email, password } = credentials as {
+            email: string;
+            password: string;
+          };
+
           await dbConnect();
 
-          const user = await User.findOne({ email: credentials.email });
+          const user = await User.findOne({ email });
 
           if (!user) {
             return null;
           }
 
-          const isMatch = await bcrypt.compare(
-            credentials?.password,
-            user.password
-          );
+          const isMatch = await bcrypt.compare(password, user.password);
 
           if (!isMatch) {
-            return null; // ✅ DO NOT throw
+            return null; // ✅ correct: no throw
           }
 
-          const { password, _id, ...rest } = user.toObject();
+          const { password: _, _id, ...rest } = user.toObject();
 
           return {
             id: _id.toString(),
