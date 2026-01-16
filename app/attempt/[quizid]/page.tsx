@@ -9,7 +9,7 @@ export default async function page({
   const { quizid } = await params;
   const session = await auth();
   console.log(quizid);
-  const res = await fetch(`http://localhost:3000/api/quiz/${quizid}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz/${quizid}`);
   const quiz = await res.json();
 console.log(quiz)
   return (

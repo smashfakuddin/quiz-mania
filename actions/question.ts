@@ -29,7 +29,7 @@ export async function addQuestion(data: QuestionFormValues, quizId: string) {
     marks: Number(data.marks),
   };
 
-  const res = await fetch("http://localhost:3000/api/question", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/question`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export async function addQuestion(data: QuestionFormValues, quizId: string) {
   return result;
 }
 export async function deleteQuestion(id: string, quizId: string) {
-  const res = await fetch("http://localhost:3000/api/question", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/question`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

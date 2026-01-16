@@ -12,7 +12,7 @@ export async function createQuiz(data: FormValues, id: string | undefined) {
     createdBy: id,
   };
 
-  const res = await fetch("http://localhost:3000/api/quiz", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export async function editQuiz(id: string | undefined, data: FormValues) {
     id,
   };
 
-  const res = await fetch("http://localhost:3000/api/quiz", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export async function editQuiz(id: string | undefined, data: FormValues) {
 }
 
 export async function deleteQuiz(id: string) {
-  const res = await fetch("http://localhost:3000/api/quiz", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export async function togglePublishQuiz(
   quizId: string,
   isPublished: boolean
 ) {
-  const res = await fetch("http://localhost:3000/api/quiz", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

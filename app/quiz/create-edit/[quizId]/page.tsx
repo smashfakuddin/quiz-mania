@@ -8,7 +8,7 @@ export default async function page({
   params: Promise<{ quizId: string }>;
 }) {
   const { quizId } = await params;
-  const res = await fetch(`http://localhost:3000/api/quiz/${quizId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz/${quizId}`);
   const data = await res.json();
 
   if (!data) {

@@ -12,7 +12,7 @@ import PublishQuiz from "./publish-quiz";
 export default async function AllQuiz() {
   const session = await auth();
   const userId = session?.user?.id;
-  const res = await fetch(`http://localhost:3000/api/quiz?userId=${userId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz?userId=${userId}`);
   const quizzes = await res.json();
   return quizzes.data.quizzes.length > 0 ? (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

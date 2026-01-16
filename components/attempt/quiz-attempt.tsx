@@ -83,7 +83,7 @@ export default function QuizAttempt({
 
   const submitQuiz = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/attempt", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/attempt`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -4,7 +4,7 @@ import SummaryCard from "./summary-card";
 export default async function AdminStats() {
   const session = await auth();
   const userId = session?.user?.id;
-  const res = await fetch(`http://localhost:3000/api/quiz?userId=${userId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/quiz?userId=${userId}`);
   const quizzes = await res.json();
   const { data: { dashboard } = {} } = quizzes || {};
   const { published, unpublished, totalQuestion, totalQuiz } = dashboard||{};
