@@ -1,15 +1,13 @@
 import {
-  BatteryCharging,
-  GitPullRequest,
-  Layers,
-  RadioTower,
-  SquareKanban,
-  WandSparkles,
+  Sparkle,
+  ChartBar,
+  Calendar,
+  ListChecks,
+  CloudLightning,
+  ShieldCheck,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
-import { Button } from "@/components/ui/button";
 
 interface Feature {
   heading: string;
@@ -25,48 +23,47 @@ interface FeatureProps {
   className?: string;
 }
 
+const features = [
+  {
+    heading: "Role-Based Access",
+    description:
+      "Teachers and students have separate logins and permissions. Secure access ensures that each user sees only what they are allowed to.",
+    icon: <ShieldCheck className="size-6" />,
+  },
+  {
+    heading: "Quiz Management",
+    description:
+      "Teachers can create, edit, and publish quizzes with ease. Questions can be added individually, and quizzes can be toggled between published and unpublished states.",
+    icon: <ListChecks className="size-6" />,
+  },
+  {
+    heading: "Student Performance",
+    description:
+      "Students can attempt quizzes and instantly see a detailed performance summary including correct/incorrect answers, accuracy, and all-time performance charts.",
+    icon: <ChartBar className="size-6" />,
+  },
+  {
+    heading: "Analytics & Insights",
+    description:
+      "Track overall progress with line charts, performance summaries, and history of all attempted quizzes. Helps students and teachers monitor improvement over time.",
+    icon: <CloudLightning className="size-6" />,
+  },
+  {
+    heading: "Organized Scheduling",
+    description:
+      "Teachers can manage quizzes per course or semester, and students can see upcoming quizzes. Supports efficient course planning and tracking.",
+    icon: <Calendar className="size-6" />,
+  },
+  {
+    heading: "Efficiency & Scalability",
+    description:
+      "Pagination and optimized queries ensure smooth performance for large quiz sets and many students, keeping the app fast and responsive.",
+    icon: <Sparkle className="size-6" />,
+  },
+];
+
 const Feature = ({
-  title = "Fully featured components for Shadcn UI & Tailwind",
-  features = [
-    {
-      heading: "Quality",
-      description:
-        "Built with attention to detail and best practices. Every component is thoroughly tested and follows modern React patterns for reliability and performance.",
-      icon: <GitPullRequest className="size-6" />,
-    },
-    {
-      heading: "Experience",
-      description:
-        "Crafted with user experience in mind. Each component is designed to be intuitive, accessible, and provide smooth interactions across all devices.",
-      icon: <SquareKanban className="size-6" />,
-    },
-    {
-      heading: "Support",
-      description:
-        "Comprehensive documentation and community support. Get help when you need it with detailed guides, examples, and active community assistance.",
-      icon: <RadioTower className="size-6" />,
-    },
-    {
-      heading: "Innovation",
-      description:
-        "Cutting-edge design patterns and modern web technologies. Stay ahead with the latest trends in UI/UX design and development practices.",
-      icon: <WandSparkles className="size-6" />,
-    },
-    {
-      heading: "Results",
-      description:
-        "Proven track record of successful implementations. These components have been battle-tested in real-world applications and deliver consistent results.",
-      icon: <Layers className="size-6" />,
-    },
-    {
-      heading: "Efficiency",
-      description:
-        "Optimized for performance and developer productivity. Lightweight, fast-loading components that help you build faster without compromising on quality.",
-      icon: <BatteryCharging className="size-6" />,
-    },
-  ],
-  buttonText = "More Features",
-  buttonUrl = "https://shadcnblocks.com",
+  title = "Full-Stack Quiz Platform with Analytics and Role-Based Access",
   className,
 }: FeatureProps) => {
   return (
@@ -74,7 +71,7 @@ const Feature = ({
       <div className="container">
         {title && (
           <div className="mx-auto mb-16 max-w-3xl text-center">
-            <h2 className="text-4xl font-medium text-pretty lg:text-5xl">
+            <h2 className="text-2xl text-pretty lg:text-4xl font-semibold">
               {title}
             </h2>
           </div>
@@ -90,13 +87,6 @@ const Feature = ({
             </div>
           ))}
         </div>
-        {buttonUrl && (
-          <div className="mt-16 flex justify-center">
-            <Button size="lg" asChild>
-              <a href={buttonUrl}>{buttonText}</a>
-            </Button>
-          </div>
-        )}
       </div>
     </section>
   );
