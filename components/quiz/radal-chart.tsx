@@ -22,7 +22,7 @@ import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 export const description = "A radial chart with a custom shape";
 
 const chartData = [
-  { browser: "safari", visitors: 2260, fill: "var(--color-safari)" },
+  { browser: "safari", visitors: 60, fill: "var(--color-safari)" },
 ];
 
 const chartConfig = {
@@ -45,7 +45,7 @@ export function ChartRadial() {
       </CardHeader>
 
       {/* Chart */}
-      <CardContent className="flex flex-1 min-h-0 items-center justify-center p-0">
+      <CardContent className="flex flex-1 min-h-0 items-center justify-center p-2">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square h-35"
@@ -101,13 +101,13 @@ export function ChartRadial() {
         </ChartContainer>
       </CardContent>
 
-      {/* Footer */}
+      {/* Footer
       <CardFooter className="flex flex-col gap-1 pb-3 pt-1 text-xs">
         <div className="flex items-center gap-1 font-medium">
           +5.2% improvement <TrendingUp className="h-3 w-3" />
         </div>
         <div className="text-muted-foreground">Compared to last month</div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

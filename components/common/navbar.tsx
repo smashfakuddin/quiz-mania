@@ -7,6 +7,7 @@ import { ModeToggle } from "./dark-toggle";
 import { User } from "next-auth";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
+import { Hamburger, Menu } from "lucide-react";
 
 type AuthSession = {
   name: string;
@@ -49,7 +50,7 @@ export default function Navbar({ user }: { user: User | undefined }) {
 
           {/* Mobile Menu Button */}
           <button onClick={() => setOpen(!open)} className="md:hidden">
-            ☰
+            <Menu/>
           </button>
         </div>
       </div>
@@ -61,11 +62,11 @@ export default function Navbar({ user }: { user: User | undefined }) {
             <Link href="/" onClick={() => setOpen(false)}>
               Home
             </Link>
-            <Link href="/about" onClick={() => setOpen(false)}>
-              About
+            <Link href="/admin" onClick={() => setOpen(false)}>
+              Admin
             </Link>
-            <Link href="/contact" onClick={() => setOpen(false)}>
-              Contact
+            <Link href="/quiz" onClick={() => setOpen(false)}>
+              My quiz
             </Link>
 
             <ModeToggle />
