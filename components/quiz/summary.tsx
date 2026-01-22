@@ -21,9 +21,13 @@ export default async function Summary() {
           Check Your Performance over the time
         </CardHeader>
         <CardContent className="flex md:flex-row flex-col gap-5 p-4">
-          <ChartRadial total={summary?.accuracy}/>
-          <ChartBar />
-          <ChartLine />
+          <ChartRadial total={summary?.accuracy} />
+          <ChartBar
+            total={summary?.totalQuestions}
+            right={summary.correctAnswers}
+            wrong={summary?.wrongAnswers}
+          />
+          <ChartLine chartData={summary?.attemptsOverTime}/>
         </CardContent>
       </Card>
     </div>

@@ -20,12 +20,6 @@ import {
 
 export const description = "A mixed bar chart";
 
-const chartData = [
-  { type: "total", total: 275, fill: "var(--color-total)" },
-  { type: "right", total: 20, fill: "var(--color-right)" },
-  { type: "wrong", total: 187, fill: "var(--color-wrong)" },
-];
-
 const chartConfig = {
   visitors: {
     label: "Visitors",
@@ -44,7 +38,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartBar() {
+type ChartBarProps = {
+  total: number;
+  right: number;
+  wrong: number;
+};
+export function ChartBar({ total, right, wrong }: ChartBarProps) {
+  const chartData = [
+    { type: "total", total: total ?? 0, fill: "var(--color-total)" },
+    { type: "right", total: right ?? 0, fill: "var(--color-right)" },
+    { type: "wrong", total: wrong ?? 0, fill: "var(--color-wrong)" },
+  ];
   return (
     <Card className="flex h-64 flex-col overflow-hidden">
       {/* Header */}
