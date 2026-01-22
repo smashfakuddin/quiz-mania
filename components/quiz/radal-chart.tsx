@@ -21,10 +21,6 @@ import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 
 export const description = "A radial chart with a custom shape";
 
-const chartData = [
-  { browser: "safari", visitors: 60, fill: "var(--color-safari)" },
-];
-
 const chartConfig = {
   visitors: {
     label: "Visitors",
@@ -35,7 +31,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartRadial() {
+export function ChartRadial({ total }: { total: number }) {
+  const chartData = [
+    { browser: "safari", visitors: total ?? 0, fill: "var(--color-safari)" },
+  ];
   return (
     <Card className="flex h-64 flex-col overflow-hidden">
       {/* Header */}

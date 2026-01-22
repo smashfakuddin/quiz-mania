@@ -21,22 +21,26 @@ import {
 export const description = "A line chart";
 
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+  { month: "January", total: 186 },
+  { month: "February", total: 305 },
+  { month: "March", total: 237 },
+  { month: "April", total: 73 },
+  { month: "May", total: 209 },
+  { month: "June", total: 214 },
 ];
-
+type ChartDataItem = {
+  month: string;
+  total: number;
+};
+type ChartDataProps = ChartDataItem[];
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  total: {
+    label: "Accuracy",
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig;
 
-export function ChartLine() {
+export function ChartLine({ chartData }: { chartData: ChartDataProps }) {
   return (
     <Card className="flex h-64 flex-col overflow-hidden flex-1">
       {/* Header */}
@@ -69,9 +73,9 @@ export function ChartLine() {
             />
 
             <Line
-              dataKey="desktop"
+              dataKey="total"
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-total)"
               strokeWidth={2}
               dot={false}
             />
